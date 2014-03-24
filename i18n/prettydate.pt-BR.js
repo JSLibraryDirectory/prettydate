@@ -1,5 +1,5 @@
 /*!
- * Portuguese Localisation by Lucas Araujo
+ * Brazilian Portuguese Localisation by Lucas Araujo
  * https://github.com/LucasNevesAraujo/prettydate
  *
  * Pretty Date v0.0.1
