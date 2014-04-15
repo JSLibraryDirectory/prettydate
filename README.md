@@ -1,4 +1,4 @@
-# [Slider](http://fengyuanchen.github.io/prettydate)
+# [Pretty Date](http://fengyuanchen.github.io/prettydate)
 
 A jQuery date prettify plugin.
 
@@ -29,12 +29,6 @@ Include files:
 #### Add options with `data-*` attribute
 
 ```html
-<span prettydate data-date="1388578451000"></span>
-```
-
-#### Add `dateFormat` option
-
-```html
 <span prettydate data-date-format="YYYY.M.D h:m:s">2014.1.1 20:14:11</span>
 ```
 
@@ -52,18 +46,6 @@ $(".prettydate").prettydate();
 ```
 
 #### Add options
-
-```html
-<span class="prettydate"></span>
-```
-
-```javascript
-$(".prettydate").prettydate({
-    date: new Date(2014, 0, 1, 20, 14, 11)
-});
-```
-
-#### Add `dateFormat` option
 
 ```html
 <span class="prettydate"></span>
@@ -89,7 +71,7 @@ Setup with `$("#target").prettydate(options)`, or global setup with `$.fn.pretty
 #### afterSuffix
 
 * type: string
-* default: "leter"
+* default: "later"
 
 
 #### beforeSuffix
@@ -111,7 +93,7 @@ Auto update the pretty date string.
 * type: object / number / string
 * default: undefined
 
-The target date for prettify. Allow date object, date milliseconds number, valid date string, or custom date string with a date format.
+The target date for prettify. Allow date object, date number (milliseconds), valid date string, or custom date string with a date format.
 
 
 #### dateFormat
@@ -161,3 +143,11 @@ The duration milliseconds of the auto update action.
 ```
 
 For each message, the first "%s" placeholder will be replaced with the date diff number, and the second "%s" placeholder will be replaced with the before or after suffix.
+
+
+## Methods
+
+* prettify - Prettify and replace the date view again.
+* destory - Remove the instance from the element, and clear the auto update `setInterval` object if it's set. By default, the prettydate instance will be destory after prettified, so you don't destory it manually. Normally, It's used when the "autoUpdate" option is be set with "true", and you want to stop it later.
+
+Use with `$("#target").prettydate("destory")`.

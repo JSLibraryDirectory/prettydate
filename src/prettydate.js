@@ -93,15 +93,22 @@
         },
 
         destory: function() {
-            var that = this;
+            if (this.destoried) {
+                return;
+            }
+
+            this.destoried = true;
 
             if (this.defaults.autoUpdate && this.autoUpdate) {
                 clearInterval(this.autoUpdate);
             }
 
-            $.each(this, function(i) {
-                that[i] = null;
-            });
+            this.$element.data("prettydate", null);
+            
+            this.date = null;
+            this.format = null;
+            this.defaults = null;
+            this.$element = null;
         },
 
         update: function() {
@@ -234,7 +241,17 @@
     // Register as jQuery plugin
     $.fn.prettydate = function(options) {
         return this.each(function() {
-            $(this).data("prettydate", new PrettyDate(this, options));
+            var $this = $(this),
+                data = $this.data("prettydate");
+            
+            if (!data) {
+                data = new PrettyDate(this, options);
+                $this.data("prettydate", data);
+            }
+            
+            if (typeof options === "string" && $.isFunction(data[options])) {
+                data[options]();
+            }
         });
     };
 

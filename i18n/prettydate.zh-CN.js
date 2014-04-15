@@ -34,7 +34,7 @@
             week: "一周%s",
             weeks: "%s周%s",
             month: "一个月%s",
-            months: "%s月%s",
+            months: "%s个月%s",
             year: "一年%s",
             years: "%s年%s",
             yesterday: "昨天",

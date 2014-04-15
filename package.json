@@ -2,7 +2,7 @@
     "name": "prettydate",
     "title": "Pretty Date",
     "description": "A jQuery date prettify plugin.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "Fengyuan Chen",
     "homepage": "https://github.com/fengyuanchen/prettydate",
     "license": "MIT",
