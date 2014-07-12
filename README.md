@@ -2,6 +2,15 @@
 
 A jQuery date prettify plugin.
 
+- [Documentation](http://fengyuanchen.github.io/prettydate)
+
+# Main
+
+```html
+dist/
+├── prettydate.js      (8 KB)
+└── prettydate.min.js  (4 KB)
+```
 
 # Getting started
 
@@ -151,3 +160,20 @@ For each message, the first "%s" placeholder will be replaced with the date diff
 * destory - Remove the instance from the element, and clear the auto update `setInterval` object if it's set. By default, the prettydate instance will be destory after prettified, so you don't destory it manually. Normally, It's used when the "autoUpdate" option is be set with "true", and you want to stop it later.
 
 Use with `$("#target").prettydate("destory")`.
+
+
+## Browser Support
+
+- IE 6+
+- Chrome 33+
+- Firefox 27+
+- Safari 5.1+
+- Opera 19+
+
+As a jQuery plugin, you can reference to the [jQuery Browser Support](http://jquery.com/browser-support/).
+
+
+## [License](https://github.com/fengyuanchen/prettydate/blob/master/LICENSE.md)
+
+Released under the [MIT](http://opensource.org/licenses/mit-license.html) license.
+

@@ -1,12 +1,12 @@
 /*!
- * Pretty Date v0.0.1
+ * Pretty Date v0.0.3
  * https://github.com/fengyuanchen/prettydate
  *
  * Copyright 2014 Fengyuan Chen
  * Released under the MIT license
  */
 
- (function(factory) {
+ (function (factory) {
     if (typeof define === "function" && define.amd) {
         // AMD. Register as anonymous module.
         define(["jquery"], factory);
@@ -14,10 +14,10 @@
         // Browser globals.
         factory(jQuery);
     }
-}(function($) {
+})(function ($) {
 
     "use strict";
-   
+
     $.fn.prettydate.setDefaults({
         afterSuffix: "后",
         beforeSuffix: "前",
@@ -43,5 +43,4 @@
             afterTomorrow: "后天"
         }
     });
-    
-}));
+});

@@ -1,4 +1,4 @@
-(function(factory) {
+(function (factory) {
     if (typeof define === "function" && define.amd) {
         // AMD. Register as anonymous module.
         define(["jquery"], factory);
@@ -6,16 +6,15 @@
         // Browser globals.
         factory(jQuery);
     }
-}(function($) {
-   
+})(function ($) {
+
     "use strict";
 
-    var PrettyDate = function(element, options) {
+    var PrettyDate = function (element, options) {
             options = $.isPlainObject(options) ? options : {};
             this.$element = $(element);
             this.defaults = $.extend({}, PrettyDate.defaults, this.$element.data(), options);
             this.init();
-            // console.log(this);
         },
         s = 1000,
         m = 60 * s,
@@ -24,30 +23,20 @@
         w = 7 * D,
         M = 31 * D,
         Y = 365 * D;
-            
+
     PrettyDate.prototype = {
         constructor: PrettyDate,
 
-        number: {
-            s: s,
-            m: m,
-            h: h,
-            D: D,
-            w: w,
-            M: M,
-            Y: Y
-        },
-
-        init: function() {
+        init: function () {
             var defaults = this.defaults,
                 date = defaults.date || this.$element.text();
 
             this.format = PrettyDate.fn.parseFormat(defaults.dateFormat);
             this.date = PrettyDate.fn.parseDate(date, this.format);
-            
+
             if (this.date) {
                 this.prettify();
-                
+
                 if (defaults.autoUpdate) {
                     this.update();
                 } else {
@@ -56,32 +45,31 @@
             }
         },
 
-        prettify: function() {
+        prettify: function () {
             var diff = (new Date()).getTime() - this.date.getTime(),
                 past = diff > 0 ? true : false,
-                n = this.number,
                 msgs = this.defaults.messages,
                 prettydate;
-            
+
             diff = Math.abs(diff);
             prettydate = (
-                diff < 2 * n.s ? msgs["second"] :
-                diff < n.m ? msgs["seconds"].replace("%s", Math.floor(diff / n.s)) :
-                diff < 2 * n.m ? msgs["minute"] :
-                diff < n.h ? msgs["minutes"].replace("%s", Math.floor(diff / n.m)) :
-                diff < 2 * n.h ? msgs["hour"] :
-                diff < n.D ? msgs["hours"].replace("%s", Math.floor(diff / n.h)) :
-                diff < 2 * n.D ? (past ? msgs["yesterday"] : msgs["tomorrow"]) :
-                diff < 3 * n.D ? (past ? msgs["beforeYesterday"] : msgs["afterTomorrow"]) :
-                /* diff < 2 * n.D ? msgs["day"] : */
-                diff < n.w ? msgs["days"].replace("%s", Math.floor(diff / n.D)) :
-                diff < 2 * n.w ? msgs["week"] :
-                diff < 4 * n.w ? msgs["weeks"].replace("%s", Math.floor(diff / n.w)) :
-                diff < 2 * n.M ? msgs["month"] :
-                diff < n.Y ? msgs["months"].replace("%s", Math.floor(diff / n.M)) :
-                diff < 2 * n.Y ? msgs["year"] : msgs["years"].replace("%s", Math.floor(diff / n.Y))
+                diff < 2 * s ? msgs.second :
+                diff < m ? msgs.seconds.replace("%s", Math.floor(diff / s)) :
+                diff < 2 * m ? msgs.minute :
+                diff < h ? msgs.minutes.replace("%s", Math.floor(diff / m)) :
+                diff < 2 * h ? msgs.hour :
+                diff < D ? msgs.hours.replace("%s", Math.floor(diff / h)) :
+                diff < 2 * D ? (past ? msgs.yesterday : msgs.tomorrow) :
+                diff < 3 * D ? (past ? msgs.beforeYesterday : msgs.afterTomorrow) :
+                /* diff < 2 * D ? msgs.day : */
+                diff < w ? msgs.days.replace("%s", Math.floor(diff / D)) :
+                diff < 2 * w ? msgs.week :
+                diff < 4 * w ? msgs.weeks.replace("%s", Math.floor(diff / w)) :
+                diff < 2 * M ? msgs.month :
+                diff < Y ? msgs.months.replace("%s", Math.floor(diff / M)) :
+                diff < 2 * Y ? msgs.year : msgs.years.replace("%s", Math.floor(diff / Y))
             );
-            
+
             prettydate = prettydate.replace("%s", past ? this.defaults.beforeSuffix : this.defaults.afterSuffix);
 
             this.$element.data({
@@ -92,7 +80,7 @@
             this.prettydate = prettydate;
         },
 
-        destory: function() {
+        destory: function () {
             if (this.destoried) {
                 return;
             }
@@ -104,19 +92,19 @@
             }
 
             this.$element.data("prettydate", null);
-            
+
             this.date = null;
             this.format = null;
             this.defaults = null;
             this.$element = null;
         },
 
-        update: function() {
+        update: function () {
             var duration = this.defaults.duration,
                 that = this;
 
             if (typeof duration === "number" && duration > 0) {
-                this.autoUpdate = setInterval(function() {
+                this.autoUpdate = setInterval(function () {
                     that.prettify();
                 }, duration);
             }
@@ -124,15 +112,15 @@
     };
 
     PrettyDate.fn = {
-        parseFormat: function(format) {
+        parseFormat: function (format) {
             var parts = typeof format === "string" ? format.match(/(\w+)/g) : [],
                 monthMatched = false;
-            
+
             if (!parts || parts.length === 0) {
                 throw new Error("Invalid date format.");
             }
 
-            format = $.map(parts, function(n) {
+            format = $.map(parts, function (n) {
                 var part = n.substr(0, 1);
 
                 switch (part) {
@@ -175,7 +163,7 @@
             return format;
         },
 
-        parseDate: function(date, format) {
+        parseDate: function (date, format) {
             var parts = typeof date === "string" ? date.match(/(\d+)/g) : [],
                 data = {
                     Y: 0,
@@ -188,7 +176,7 @@
 
             if (parts.length === format.length) {
 
-                $.each(format, function(i, n) {
+                $.each(format, function (i, n) {
                     data[n] = parseInt(parts[i], 10) || 0;
                 });
 
@@ -201,7 +189,6 @@
         }
     };
 
-    // Default settings
     PrettyDate.defaults = {
         afterSuffix: "later",
         beforeSuffix: "ago",
@@ -233,22 +220,21 @@
         }
     };
 
-    // Set default settings
-    PrettyDate.setDefaults = function(options) {
+    PrettyDate.setDefaults = function (options) {
         $.extend(PrettyDate.defaults, options);
     };
 
     // Register as jQuery plugin
-    $.fn.prettydate = function(options) {
-        return this.each(function() {
+    $.fn.prettydate = function (options) {
+        return this.each(function () {
             var $this = $(this),
                 data = $this.data("prettydate");
-            
+
             if (!data) {
                 data = new PrettyDate(this, options);
                 $this.data("prettydate", data);
             }
-            
+
             if (typeof options === "string" && $.isFunction(data[options])) {
                 data[options]();
             }
@@ -258,9 +244,7 @@
     $.fn.prettydate.Constructor = PrettyDate;
     $.fn.prettydate.setDefaults = PrettyDate.setDefaults;
 
-    // Initialize on DOM ready
-    $(function() {
+    $(function () {
         $("[prettydate]").prettydate();
     });
-    
-}));
+});
