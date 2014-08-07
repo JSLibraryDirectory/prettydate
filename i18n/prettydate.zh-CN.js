@@ -1,5 +1,5 @@
 /*!
- * Pretty Date v0.0.3
+ * Pretty Date v0.1.0
  * https://github.com/fengyuanchen/prettydate
  *
  * Copyright 2014 Fengyuan Chen

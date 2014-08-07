@@ -4,13 +4,15 @@ A jQuery date prettify plugin.
 
 - [Documentation](http://fengyuanchen.github.io/prettydate)
 
+
 # Main
 
 ```html
 dist/
-├── prettydate.js      (8 KB)
+├── prettydate.js      (9 KB)
 └── prettydate.min.js  (4 KB)
 ```
+
 
 # Getting started
 
@@ -26,6 +28,7 @@ Include files:
 
 
 ## Usage
+
 
 ### Initialize with `prettydate` attribute
 
@@ -100,7 +103,7 @@ Auto update the pretty date string.
 #### date
 
 * type: object / number / string
-* default: undefined
+* default: null
 
 The target date for prettify. Allow date object, date number (milliseconds), valid date string, or custom date string with a date format.
 
@@ -151,15 +154,20 @@ The duration milliseconds of the auto update action.
 }
 ```
 
-For each message, the first "%s" placeholder will be replaced with the date diff number, and the second "%s" placeholder will be replaced with the before or after suffix.
+For each message, the first "%s" placeholder will be replaced with the date difference number, and the second "%s" placeholder will be replaced with the before or after suffix.
 
 
 ## Methods
 
-* prettify - Prettify and replace the date view again.
-* destory - Remove the instance from the element, and clear the auto update `setInterval` object if it's set. By default, the prettydate instance will be destory after prettified, so you don't destory it manually. Normally, It's used when the "autoUpdate" option is be set with "true", and you want to stop it later.
+#### prettify
 
-Use with `$("#target").prettydate("destory")`.
+- Prettify and replace the date again.
+- Usage: `$("#target").prettydate("prettify")`.
+
+#### destroy
+
+- Destroy the `prettydate` instance from the element.
+- Usage: `$("#target").prettydate("destroy")`.
 
 
 ## Browser Support

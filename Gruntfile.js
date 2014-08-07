@@ -5,11 +5,11 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         banner: "/*!\n" +
-                " * <%= pkg.title %> v<%= pkg.version %>\n" +
+                " * Pretty Date v<%= pkg.version %>\n" +
                 " * <%= pkg.homepage %>\n" +
                 " *\n" +
-                " * Copyright <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
-                " * Released under the <%= pkg.license %> license\n" +
+                " * Copyright <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
+                " * Released under the <%= pkg.license.type %> license\n" +
                 " */\n",
         clean: {
             dist: ["dist/"],

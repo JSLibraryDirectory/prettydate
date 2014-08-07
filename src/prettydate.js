@@ -16,87 +16,109 @@
             this.defaults = $.extend({}, PrettyDate.defaults, this.$element.data(), options);
             this.init();
         },
-        s = 1000,
-        m = 60 * s,
-        h = 60 * m,
-        D = 24 * h,
-        w = 7 * D,
-        M = 31 * D,
-        Y = 365 * D;
+
+        // Helper variables
+        floor = Math.floor,
+        second = 1000,
+        minute = 60 * second,
+        hour = 60 * minute,
+        day = 24 * hour,
+        week = 7 * day,
+        month = 31 * day,
+        year = 365 * day;
 
     PrettyDate.prototype = {
         constructor: PrettyDate,
 
         init: function () {
-            var defaults = this.defaults,
-                date = defaults.date || this.$element.text();
+            var $this = this.$element,
+                defaults = this.defaults,
+                isInput = $this.is("input"),
+                originalDate = isInput ? $this.val() : $this.text();
 
+            this.isInput = isInput;
+            this.originalDate = originalDate;
             this.format = PrettyDate.fn.parseFormat(defaults.dateFormat);
-            this.date = PrettyDate.fn.parseDate(date, this.format);
+            this.setDate(defaults.date || originalDate);
+            this.active = true;
 
             if (this.date) {
                 this.prettify();
 
                 if (defaults.autoUpdate) {
                     this.update();
-                } else {
-                    this.destory();
                 }
+            }
+        },
+
+        setDate: function (date) {
+            if (date) {
+                this.date = PrettyDate.fn.parseDate(date, this.format);
             }
         },
 
         prettify: function () {
             var diff = (new Date()).getTime() - this.date.getTime(),
                 past = diff > 0 ? true : false,
-                msgs = this.defaults.messages,
-                prettydate;
+                messages = this.defaults.messages,
+                $this = this.$element,
+                prettyDate;
 
-            diff = Math.abs(diff);
-            prettydate = (
-                diff < 2 * s ? msgs.second :
-                diff < m ? msgs.seconds.replace("%s", Math.floor(diff / s)) :
-                diff < 2 * m ? msgs.minute :
-                diff < h ? msgs.minutes.replace("%s", Math.floor(diff / m)) :
-                diff < 2 * h ? msgs.hour :
-                diff < D ? msgs.hours.replace("%s", Math.floor(diff / h)) :
-                diff < 2 * D ? (past ? msgs.yesterday : msgs.tomorrow) :
-                diff < 3 * D ? (past ? msgs.beforeYesterday : msgs.afterTomorrow) :
-                /* diff < 2 * D ? msgs.day : */
-                diff < w ? msgs.days.replace("%s", Math.floor(diff / D)) :
-                diff < 2 * w ? msgs.week :
-                diff < 4 * w ? msgs.weeks.replace("%s", Math.floor(diff / w)) :
-                diff < 2 * M ? msgs.month :
-                diff < Y ? msgs.months.replace("%s", Math.floor(diff / M)) :
-                diff < 2 * Y ? msgs.year : msgs.years.replace("%s", Math.floor(diff / Y))
-            );
-
-            prettydate = prettydate.replace("%s", past ? this.defaults.beforeSuffix : this.defaults.afterSuffix);
-
-            this.$element.data({
-                date: this.date,
-                prettydate: prettydate
-            }).text(prettydate);
-
-            this.prettydate = prettydate;
-        },
-
-        destory: function () {
-            if (this.destoried) {
+            if (!this.active) {
                 return;
             }
 
-            this.destoried = true;
+            diff = diff < 0 ? (second - diff) : diff;
+            prettyDate = (
+                diff < 2 * second ? messages.second :
+                diff < minute ? messages.seconds.replace("%s", floor(diff / second)) :
+                diff < 2 * minute ? messages.minute :
+                diff < hour ? messages.minutes.replace("%s", floor(diff / minute)) :
+                diff < 2 * hour ? messages.hour :
+                diff < day ? messages.hours.replace("%s", floor(diff / hour)) :
+                diff < 2 * day ? (past ? messages.yesterday : messages.tomorrow) :
+                diff < 3 * day ? (past ? messages.beforeYesterday : messages.afterTomorrow) :
+                /* diff < 2 * day ? messages.day : */
+                diff < week ? messages.days.replace("%s", floor(diff / day)) :
+                diff < 2 * week ? messages.week :
+                diff < 4 * week ? messages.weeks.replace("%s", floor(diff / week)) :
+                diff < 2 * month ? messages.month :
+                diff < year ? messages.months.replace("%s", floor(diff / month)) :
+                diff < 2 * year ? messages.year : messages.years.replace("%s", floor(diff / year))
+            );
+
+            prettyDate = prettyDate.replace("%s", past ? this.defaults.beforeSuffix : this.defaults.afterSuffix);
+
+            if (this.isInput) {
+                $this.val(prettyDate);
+            } else {
+                $this.text(prettyDate);
+            }
+
+            this.prettyDate = prettyDate;
+        },
+
+        destroy: function () {
+            var $this = this.$element,
+                originalDate = this.originalDate;
+
+            if (!this.active) {
+                return;
+            }
 
             if (this.defaults.autoUpdate && this.autoUpdate) {
                 clearInterval(this.autoUpdate);
             }
 
-            this.$element.data("prettydate", null);
+            if (this.isInput) {
+                $this.val(originalDate);
+            } else {
+                $this.text(originalDate);
+            }
 
-            this.date = null;
-            this.format = null;
-            this.defaults = null;
-            this.$element = null;
+            $this.removeData("prettydate");
+
+            this.active = false;
         },
 
         update: function () {
@@ -174,11 +196,12 @@
                     s: 0
                 };
 
-            if (parts.length === format.length) {
-
+            if ($.isArray(parts) && $.isArray(format) && parts.length === format.length) {
                 $.each(format, function (i, n) {
                     data[n] = parseInt(parts[i], 10) || 0;
                 });
+
+                data.Y += data.Y > 0 && data.Y < 100 ? 2000 : 0; // Year: 14 -> 2014
 
                 date = new Date(data.Y, data.M - 1, data.D, data.h, data.m, data.s);
             } else {
@@ -193,7 +216,7 @@
         afterSuffix: "later",
         beforeSuffix: "ago",
         autoUpdate: false,
-        date: undefined,
+        date: null,
         dateFormat: "YYYY-MM-DD hh:mm:ss",
         duration: 60000, // milliseconds
         messages: {
@@ -225,23 +248,22 @@
     };
 
     // Register as jQuery plugin
-    $.fn.prettydate = function (options) {
+    $.fn.prettydate = function (options, settings) {
         return this.each(function () {
             var $this = $(this),
                 data = $this.data("prettydate");
 
             if (!data) {
-                data = new PrettyDate(this, options);
-                $this.data("prettydate", data);
+                $this.data("prettydate", (data = new PrettyDate(this, options)));
             }
 
             if (typeof options === "string" && $.isFunction(data[options])) {
-                data[options]();
+                data[options](settings);
             }
         });
     };
 
-    $.fn.prettydate.Constructor = PrettyDate;
+    $.fn.prettydate.constructor = PrettyDate;
     $.fn.prettydate.setDefaults = PrettyDate.setDefaults;
 
     $(function () {
