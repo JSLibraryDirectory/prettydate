@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A jQuery date prettify plugin.">
+  <meta name="keywords" content="HTML, CSS, JS, JavaScript, jQuery plugin, date prettify, front-end, frontend, web development">
+  <meta name="author" content="Fengyuan Chen">
+  <title>Pretty Date</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <!-- Header -->
+  <header class="navbar navbar-static-top docs-header" id="top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-target="#navbar-collapse-1" data-toggle="collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="./">Pretty Date</a>
+      </div>
+      <nav class="collapse navbar-collapse" id="navbar-collapse-1" role="navigation">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="https://github.com/fengyuanchen/prettydate/tree/v0.1.0/README.md">Docs</a></li>
+          <li><a href="https://github.com/fengyuanchen/prettydate">GitHub</a></li>
+          <li><a href="//fengyuanchen.github.io">More</a></li>
+          <li><a href="http://chenfengyuan.com">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Jumbotron -->
+  <div class="jumbotron docs-jumbotron">
+    <div class="container">
+      <h1>Pretty Date <small class="version">v0.1.0</small></h1>
+      <p class="lead">A simple jQuery date prettify plugin.</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+    <h1 class="page-header" id="getting-started">Getting started</h1>
+
+    <!-- Installation -->
+    <h2>Installation</h2>
+    <p>Include files:</p>
+    <pre class="prettyprint">&lt;script src=&quot;/path/to/jquery.js&quot;&gt;&lt;/script&gt;&lt;!-- jQuery is required --&gt;
+&lt;script src=&quot;/path/to/prettydate.js&quot;&gt;&lt;/script&gt;</pre>
+
+    <!-- Initialize with "prettydate" attribute -->
+    <h2 class="page-header">Usage</h2>
+    <h3>Initialize with <code>prettydate</code> attribute</h3>
+    <h4>Basic</h4>
+    <p>HTML:</p>
+    <pre class="prettyprint">&lt;span prettydate&gt;Jan 01 2014&lt;/span&gt;</pre>
+    <p>Demo:</p>
+    <div class="alert alert-info">
+      <span prettydate>Jan 01 2014</span>
+    </div>
+
+    <h4>Add options with <code>data-*</code> attribute</h4>
+    <p>HTML:</p>
+    <pre class="prettyprint">&lt;span prettydate data-date-format=&quot;YYYY.M.D h:m:s&quot;&gt;2020.1.1 20:20:11&lt;/span&gt;</pre>
+    <p>Demo:</p>
+    <div class="alert alert-info">
+      <span prettydate data-date-format="YYYY.M.D h:m:s">2020.1.1 20:20:11</span>
+    </div>
+
+    <!-- Initialize with "$.fn.prettydate" method -->
+    <h3>Initialize with <code>$.fn.prettydate</code> method</h3>
+    <h4>Basic</h4>
+    <p>HTML:</p>
+    <pre class="prettyprint">&lt;span class=&quot;prettydate&quot;&gt;Nov 11 2011 11:11:11&lt;/span&gt;</pre>
+    <p>Javascript:</p>
+    <pre class="prettyprint">$(&quot;.prettydate&quot;).prettydate();</pre>
+    <p>Demo:</p>
+    <div class="alert alert-info">
+      <span class="prettydate">Nov 11 2011 11:11:11</span>
+    </div>
+
+    <h4>Add options</h4>
+    <p>HTML:</p>
+    <pre class="prettyprint">&lt;p class=&quot;prettydate-add-options&quot;&gt;&lt;/p&gt;</pre>
+    <p>Javascript:</p>
+    <pre class="prettyprint">$(&quot;.prettydate-add-options&quot;).prettydate({
+  date: (new Date()).getTime() + (24 * 60 * 60 * 1000) // Tomorrow
+});</pre>
+    <p>Demo:</p>
+    <div class="alert alert-info">
+      <span class="prettydate-add-options"></span>
+    </div>
+
+    <!-- Configure -->
+    <h2 class="page-header">Configure</h2>
+
+    <h3>Setup</h3>
+    <p>Setup with <code>$(&quot;#target&quot;).prettydate(options)</code>, or global setup with <code>$.fn.prettydate.setDefaults(options)</code>.</p>
+
+    <h3>Options</h3>
+    <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-fast="true"</code>.</p>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>afterSuffix</td>
+            <td>string</td>
+            <td>"later"</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>beforeSuffix</td>
+            <td>string</td>
+            <td>"ago"</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>autoUpdate</td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>Auto update the pretty date string after a duration.</td>
+          </tr>
+          <tr>
+            <td>date</td>
+            <td>object / number / string</td>
+            <td>null</td>
+            <td>The target date for prettify. Allow date object, date number (milliseconds), valid date string, or custom date string with a date format.</td>
+          </tr>
+          <tr>
+            <td>dateFormat</td>
+            <td>string</td>
+            <td>"YYYY-MM-DD hh:mm:ss"</td>
+            <td>"Y" for year, "M" for month, "D" for day, "h" for hour, "m" for minute, "s" for second.</td>
+          </tr>
+          <tr>
+            <td>duration</td>
+            <td>number</td>
+            <td>60000</td>
+            <td>The duration milliseconds of the auto update action.</td>
+          </tr>
+          <tr>
+            <td>messages</td>
+            <td>object</td>
+            <td><span class="text-muted">(as follows)</span></td>
+            <td>For each message, the first "%s" placeholder will be replaced with the date diff number, and the second "%s" placeholder will be replaced with the before or after suffix.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Default messages:</strong></p>
+    <pre class="prettyprint">{
+  second: &quot;Just now&quot;,
+  seconds: &quot;%s seconds %s&quot;,
+  minute: &quot;One minute %s&quot;,
+  minutes: &quot;%s minutes %s&quot;,
+  hour: &quot;One hour %s&quot;,
+  hours: &quot;%s hours %s&quot;,
+  day: &quot;One day %s&quot;,
+  days: &quot;%s days %s&quot;,
+  week: &quot;One week %s&quot;,
+  weeks: &quot;%s weeks %s&quot;,
+  month: &quot;One month %s&quot;,
+  months: &quot;%s months %s&quot;,
+  year: &quot;One year %s&quot;,
+  years: &quot;%s years %s&quot;,
+
+  // Extra
+  yesterday: &quot;Yesterday&quot;,
+  beforeYesterday: &quot;The day before yesterday&quot;,
+  tomorrow: &quot;Tomorrow&quot;,
+  afterTomorrow: &quot;The day after tomorrow&quot;
+}</pre>
+
+    <!-- Methods -->
+    <h2 class="page-header">Methods</h2>
+    <h4>prettify</h4>
+    <ul>
+      <li>Prettify and replace the date view again.</li>
+      <li>Usage: <code>$("#target").prettydate("prettify")</code>.</li>
+    </ul>
+
+    <h4>destroy</h4>
+    <ul>
+      <li>Destroy the <code>prettydate</code> instance from the element</li>
+      <li>Usage: <code>$("#target").prettydate("destroy")</code>.</li>
+    </ul>
+
+    <!-- I18n -->
+    <h2 class="page-header">I18n</h2>
+    <p>For example:</p>
+    <pre class="prettyprint">// zh-CN
+$.fn.prettydate.setDefaults({
+  afterSuffix: &quot;后&quot;,
+  beforeSuffix: &quot;前&quot;,
+  dateFormat: &quot;YYYY-MM-DD hh:mm:ss&quot;,
+  messages: {
+    second: &quot;刚刚&quot;,
+    seconds: &quot;%s秒%s&quot;,
+    minute: &quot;一分钟%s&quot;,
+    minutes: &quot;%s分钟%s&quot;,
+    hour: &quot;一小时%s&quot;,
+    hours: &quot;%s小时%s&quot;,
+    day: &quot;一天%s&quot;,
+    days: &quot;%s天%s&quot;,
+    week: &quot;一周%s&quot;,
+    weeks: &quot;%s周%s&quot;,
+    month: &quot;一个月%s&quot;,
+    months: &quot;%s个月%s&quot;,
+    year: &quot;一年%s&quot;,
+    years: &quot;%s年%s&quot;,
+    yesterday: &quot;昨天&quot;,
+    beforeYesterday: &quot;前天&quot;,
+    tomorrow: &quot;明天&quot;,
+    afterTomorrow: &quot;后天&quot;
+  }
+});</pre>
+    <p><a class="btn btn-primary" href="prettydate.zh-CN.html">View the demo</a></p>
+
+    <!-- More Demos -->
+    <h2 class="page-header">More demos</h2>
+
+    <h3>Auto update</h3>
+    <p>HTML:</p>
+    <pre class="prettyprint">&lt;span class=&quot;prettydate-auto-update&quot;&gt;&lt;/span&gt;</pre>
+    <p>JavaScript:</p>
+    <pre class="prettyprint">$(&quot;.prettydate-auto-update&quot;).prettydate({
+  autoUpdate: true,
+  date: new Date(),
+  duration: 1000
+});</pre>
+    <p>Demo:</p>
+    <div class="alert alert-info">
+      <span class="prettydate-auto-update"></span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="docs-footer">
+    <div class="container">
+      <p class="heart"></p>
+      <ul class="list-inline links">
+        <li><a href="https://github.com/fengyuanchen/prettydate">GitHub</a></li>
+        <li><a href="https://github.com/fengyuanchen/prettydate/releases">Releases</a></li>
+        <li><a href="https://github.com/fengyuanchen/prettydate/blob/master/LICENSE">License</a></li>
+        <li><a href="http://chenfengyuan.com">About</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  <script src="//fengyuanchen.github.io/js/common.js"></script>
+  <script src="js/prettydate.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
